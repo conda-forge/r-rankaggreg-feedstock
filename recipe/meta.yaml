@@ -1,6 +1,5 @@
 {% set version = '0.6.6' %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-rankaggreg
@@ -13,8 +12,7 @@ source:
   sha256: bde95b55e052ad3777a9720ca970a438f5f3ba37798a12c77dd89cb39db4e0bc
 
 build:
-  merge_build_host: True  # [win]
-  number: 1
+  number: 2
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}make
     - {{ posix }}sed               # [win]
@@ -34,7 +34,6 @@ requirements:
     - r-gtools
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-gtools
 
 test:
